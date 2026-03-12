@@ -53,6 +53,9 @@ useSeoMeta({
         </div>
       </template>
     </UPageHero>
+    <UPageSection>
+      <DrugPicker />
+    </UPageSection>
     <UPageSection
       :ui="{
         container: '!pt-0'
