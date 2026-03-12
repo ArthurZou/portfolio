@@ -27,13 +27,6 @@ export default defineNuxtConfig({
     }
   },
 
-  fonts: {
-    providers: {
-      google: false,
-      googleicons: false
-    }
-  },
-
   eslint: {
     config: {
       stylistic: {
