@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: '请输入预算金额' })
   }
 
-  const result = run(budget)
+  const result = await run(budget)
 
   if (result.error) {
     throw createError({ statusCode: 400, statusMessage: result.error })

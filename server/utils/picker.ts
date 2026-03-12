@@ -1,7 +1,13 @@
-import { readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+let DRUGS: any[] = []
 
-const DRUGS: any[] = JSON.parse(readFileSync(resolve(process.cwd(), 'server/data/m.data'), 'utf8'))
+async function getDrugs() {
+  if (DRUGS.length === 0) {
+    const raw = await useStorage('assets:server').getItemRaw('m.data')
+    const text = raw instanceof Uint8Array ? new TextDecoder().decode(raw) : String(raw)
+    DRUGS = JSON.parse(text)
+  }
+  return DRUGS
+}
 const MIN_RATIO = 0.9
 const MAX_QTY = 10
 const MAX_CANDIDATES = 100
@@ -100,13 +106,14 @@ function formatResult(selected: Candidate, budget: number) {
   }
 }
 
-export function run(budgetStr: string | number) {
+export async function run(budgetStr: string | number) {
   const budget = parseFloat(String(budgetStr))
 
   if (isNaN(budget) || budget <= 0) {
     return { data: [], error: '金额无效' }
   }
 
+  await getDrugs()
   const candidates = findCandidates(budget)
 
   if (candidates.length === 0) {
